@@ -1,0 +1,6 @@
+.content-header>.breadcrumb {
+	position: inherit;
+	float: none;
+	top: auto;
+	right: auto;
+}

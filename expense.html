@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>AdminLTE 2 | user</title>
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
+		<link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+		<link rel="stylesheet" href="dist/css/skins/skin-blue.min.css">
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+		<link rel="stylesheet" href="bower_components/bootstrap-daterangepicker/daterangepicker.css">
+	</head>
+	<body class="hold-transition skin-blue sidebar-mini">
+		<div class="wrapper">
+
+			<div class="content-wrapper">
+				<section class="content-header">
+					<ol class="breadcrumb">
+						<li>
+							<a href="#"><i class="fa fa-dashboard"></i>报账列表</a>
+						</li>
+						<li class="active">报账列表</li>
+					</ol>
+				</section>
+				<section class="content">
+					<div class="box box-primary">
+						<div class="box-header with-border"></div>
+						<!-- /.box-header -->
+						<div class="box-body">
+							<div class="row">
+								<div class="col-xs-12">
+										<!-- /.box-header -->
+										<div class="box-body">
+											<table id="example" class="table table-bordered table-hover">
+												<thead>
+													<tr>
+														<th>订单名称</th>
+														<th>项目金额</th>
+														<th>所属项目</th>
+														<th>项目类型</th>
+														<th>发起人</th>
+														<th>收支类型</th>
+														<th>附件</th>
+														<th>操作</th>
+													</tr>
+												</thead>
+												<tbody></tbody>
+											</table>
+										</div>
+										<!-- /.box-body -->
+									</div>
+									<!-- /.box -->
+								</div>
+							</div>
+						</div>
+						<!-- /.box-body -->
+					</div>
+				</section>
+			</div>
+		</div>
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="dist/js/adminlte.min.js"></script>
+		
+		<script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+		<script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+		<script src="js/nav.js"></script>
+		<script src="js/fina_fun.js"></script>
+		<script src="js/finance.js"></script>
+		<script type="text/javascript">
+			$(".li").eq(0).addClass("active").parents(".treeview").addClass("menu-open active")
+			var table = $('#example').DataTable({
+					'ordering': false,
+					'lengthChange': false,
+					'searching': false,
+					'info': true,
+					"processing": true,
+					"serverSide": true,
+					"ajax": {
+						"type": 'post',
+						"url": url+"order/lst.html",
+						"data": function(d) {
+							console.log(d);
+							var data = {
+								page:d.start/10+1
+//								pageSize: d.length,
+//								token: localStorage.getItem('fr_token'),
+//								userId:$("#userId").val(),
+//								phone:$("#phone").val()
+							}
+//							return JSON.stringify(data)
+							return data;
+						},
+						"dataFilter": function(data) {
+							var data1 = eval('(' + data + ')');
+							var datajson = eval('(' + data1 + ')');;
+							console.log(datajson)
+							if(datajson.returnCode == 501) {
+								ToLogin(datajson)
+							} else if(datajson.returnCode == 500) {
+								alert(datajson.msg)
+								return false;
+							}
+							var json = {};
+							json.recordsTotal = datajson.total;
+							json.recordsFiltered = datajson.total;
+							json.data = datajson.data;
+							console.log(json);
+							return JSON.stringify(json);
+						}
+					},
+					"columns": [{
+							data: 'order_name'
+						},
+						{
+							data: 'money'
+						},
+						{
+							data: 'pro_name'
+						},
+						{
+							data: 'type_name',
+							
+						},
+						{
+							data: 'ture_name',
+							
+						},
+						{
+							data: null,
+							render: function(data) {
+								return order_type(data.type);
+							}
+						},
+						{
+							data: null,
+							render: function(data) {
+								var str = "<input type='hidden' value='"+JSON.stringify(data)+"'>";
+								return str+'<button class="btn bg-green margin-r-5 downloan">下载附件</button>';
+							}//下载
+						},
+						{
+							data: null,
+							render: function(data) {
+								var str = "<input type='hidden' value='"+JSON.stringify(data)+"'>";
+								return str+'<button class="btn bg-green margin-r-5 eidt">编辑</button><button class="btn bg-green margin-r-5 delete">删除</button>';
+							}//下载
+						}
+					]
+				})
+		</script>
+	</body>
+
+</html>
