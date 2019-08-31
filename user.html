@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,7 +15,12 @@
 		<link rel="stylesheet" href="bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 		<link rel="stylesheet" href="bower_components/bootstrap-daterangepicker/daterangepicker.css">
-
+		<style>
+			label>input[type=checkbox] {
+				display: inline-block;
+				margin-right: 10px;
+			}
+		</style>
 	</head>
 
 	<body class="hold-transition skin-blue sidebar-mini">
@@ -24,66 +30,374 @@
 				<section class="content-header">
 					<ol class="breadcrumb">
 						<li>
-							<a href="#"><i class="fa fa-dashboard"></i> 用户管理</a>
+							<a href="#"><i class="fa fa-dashboard"></i>系统设置</a>
 						</li>
 						<li class="active">用户列表</li>
 					</ol>
 				</section>
 				<section class="content">
 					<div class="box box-primary">
-						<div class="box-header with-border"></div>
+						<div class="box-header with-border">
+							<div class="inline-block">
+								<button class="btn bg-green margin-r-5" id="add">添加</button>
+							</div>
+						</div>
 						<!-- /.box-header -->
 						<div class="box-body">
 							<div class="row">
 								<div class="col-xs-12">
-										<!-- /.box-header -->
-										<div class="box-body">
-											<table id="example2" class="table table-bordered table-hover">
-												<thead>
-													<tr>
-														<th>项目</th>
-														<th>月支出</th>
-														<th>月收入</th>
-														<th>总资金</th>
-														<th>资产</th>
-													</tr>
-												</thead>
-												<tbody></tbody>
-											</table>
-										</div>
-										<!-- /.box-body -->
+									<!-- /.box-header -->
+									<div class="box-body">
+										<table id="example" class="table table-bordered table-hover">
+											<thead>
+												<tr>
+													<th>id</th>
+													<th>账号</th>
+													<th>真实姓名</th>
+													<th>角色</th>
+													<th>操作</th>
+												</tr>
+											</thead>
+											<tbody></tbody>
+										</table>
 									</div>
-									<!-- /.box -->
+									<!-- /.box-body -->
 								</div>
+								<!-- /.box -->
 							</div>
 						</div>
-						<!-- /.box-body -->
 					</div>
+					<!-- /.box-body -->
 				</section>
+			</div>
+		</div>
+		<div class="modal fade" id="user_add_modal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  						<span aria-hidden="true">&times;</span>
+									</button>
+						<h4 class="modal-title">用户添加</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal">
+							<div class="box-body">
+								<div class="form-group">
+									<label for="account" class="col-sm-3 control-label">真实姓名</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" name="ture_name">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="account" class="col-sm-3 control-label">登录账号</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" name="account">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="account" class="col-sm-3 control-label">登录密码</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" name="password">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="account" class="col-sm-3 control-label">手机号</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" name="phone">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="account" class="col-sm-3 control-label">身份标签</label>
+									<div class="col-sm-9">
+										<select name="sign">
+											<option value="1">管理员</option>
+											<option value="2">出纳</option>
+											<option value="3">报账人</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="account" class="col-sm-3 control-label">可操作项目</label>
+									<div class="col-sm-9 project" style="padding-top:7px;"></div>
+								</div>
+
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary save">添加</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="user_edit_modal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  						<span aria-hidden="true">&times;</span>
+									</button>
+						<h4 class="modal-title">用户修改</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal">
+							<div class="box-body">
+								<div class="form-group">
+									<label for="account" class="col-sm-3 control-label">真实姓名</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" name="ture_name">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="account" class="col-sm-3 control-label">登录账号</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" name="account">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="account" class="col-sm-3 control-label">手机号</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" name="phone">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="account" class="col-sm-3 control-label">身份标签</label>
+									<div class="col-sm-9">
+										<select name="sign">
+											<option value="1">管理员</option>
+											<option value="2">出纳</option>
+											<option value="3">报账人</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="account" class="col-sm-3 control-label">可操作项目</label>
+									<div class="col-sm-9 project" style="padding-top:7px;">
+									</div>
+								</div>
+
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary save">修改</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="user_del_modal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  						<span aria-hidden="true">&times;</span>
+									</button>
+						<h4 class="modal-title">用户删除</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal">
+							<div class="box-body">
+								<input type="hidden" name="id" />
+								<p>是否删除用户“<span name="account"></span>”</p>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary save">删除</button>
+					</div>
+				</div>
 			</div>
 		</div>
 		<script src="bower_components/jquery/dist/jquery.min.js"></script>
 		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="dist/js/adminlte.min.js"></script>
-		
+
 		<script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 		<script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-		
-		
+
 		<script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 		<script src="plugins/timepicker/bootstrap-timepicker.min.js"></script>
 		<script src="bower_components/moment/min/moment.min.js"></script>
 		<script src="js/nav.js"></script>
 		<script src="js/finance.js"></script>
+		<script src="js/fina_fun.js"></script>
 		<script type="text/javascript">
+			function p_arr($_modal) {
+				var arr = [];
+				$.each($_modal.find(".project input:checked"), function(index, item) {
+					arr.push($(item).val());
+				})
+				return arr;
+			}
+			$(".li").eq(4).addClass("active").parents(".treeview").addClass("menu-open active");
+			
 			$.ajax({
-				type:"post",
-				url:url+"order/lst.html",
-				data:{},
-				dataType:'json',
-				success:function(res){
-					console.log(res);
+				type: "post",
+				url: url + "type/lst.html",
+				data: {},
+				success: function(res) {
+					//					var data1 = eval('(' + res + ')');
+					var data1 = res;
+					var datajson = eval('(' + data1.msg + ')');
+					$.each(datajson.data, function(index, item) {
+						$("#user_add_modal .project").append('<input type="checkbox" id="user_add_' + item.p_id + '" value="' + item.p_id + '"><label for="user_add_' + item.p_id + '">' + item.type_name + '</label>')
+						$("#user_edit_modal .project").append('<input type="checkbox" id="user_edit_' + item.p_id + '" value="' + item.p_id + '"><label for="user_edit_' + item.p_id + '">' + item.type_name + '</label>')
+					})
 				}
+			})
+
+			var table = $('#example').DataTable({
+				'ordering': false,
+				'lengthChange': false,
+				'searching': false,
+				'info': true,
+				"processing": true,
+				"serverSide": true,
+				"ajax": {
+					"type": 'post',
+					"url": url + "user/lst.html",
+					"data": function(d) {
+						var data = {
+							page: d.start / 10 + 1
+						}
+						return data;
+					},
+					"dataFilter": function(data) {
+						console.log(data)
+						var data1 = eval('(' + data + ')');
+						var datajson = eval('(' + data1.msg + ')');
+						console.log(datajson);
+						//							if(data1.code == 501) {
+						//								ToLogin(datajson)
+						//							} else if(data1.code == 500) {
+						//								alert(datajson.msg)
+						//								return false;
+						//							}
+						var json = {};
+						json.recordsTotal = datajson.total;
+						json.recordsFiltered = datajson.total;
+						json.data = datajson.data;
+						return JSON.stringify(json);
+					}
+				},
+				"columns": [{
+						data: 'id'
+					},
+					{
+						data: 'account'
+					},
+					{
+						data: 'ture_name'
+					},
+
+					{
+						data: null,
+						render: function(data) {
+							return user(data.sign)
+						}
+					},
+					{
+						data: null,
+						render: function(data) {
+							var str = "<input type='hidden' value='" + JSON.stringify(data) + "'>";
+							return str + '<button class="btn bg-green margin-r-5 edit">编辑</button><button class="btn bg-green margin-r-5 del">删除</button>';
+						} //下载
+					}
+				]
+			})
+
+			$("#add").click(function() {
+				$("#user_add_modal").modal("show");
+				$("#user_add_modal").val("");
+			})
+
+			$("#user_add_modal .save").click(function() {
+				$.ajax({
+					type: "post",
+					url: url + "user/add.html",
+					data: {
+						ture_name: $("#user_add_modal input[name=ture_name]").val(), //真实姓名
+						account: $("#user_add_modal input[name=account]").val(), //登录账号
+						password: $("#user_add_modal input[name=password]").val(), //登录密码
+						phone: $("#user_add_modal input[name=phone]").val(), //手机号
+						sign: $("#user_add_modal [name=sign]").val(), //身份标签
+						p_arr: p_arr($("#user_add_modal")) //可操作项目
+					},
+					success: function(res) {
+						if(res.code) {
+							table.draw(false);
+							$("#user_add_modal").modal("hidden");
+						} else {
+							alert(res.msg);
+						}
+
+					}
+				})
+			})
+
+			$("#example").on("click", ".edit", function() {
+				$.each(eval("(" + $(this).siblings("input").val() + ")"), function(index, item) {
+					if(index == "sign") {
+						$("#user_edit_modal select[name=" + index + "]").val(item)
+					} else if(index == "p_arr") {
+						$.each(item.split(","), function(index, item) {
+							console.log($(".project [value=" + item + "]"))
+							$(".project [value=" + item + "]").prop("checked", true);
+						})
+					}
+					$(" input[name=" + index + "]").val(item);
+				})
+
+				$("#user_edit_modal").modal("show");
+			})
+
+			$("#user_edit_modal .save").click(function() {
+				$.ajax({
+					type: "post",
+					url: url + "user/edit.html",
+					data: {
+						ture_name: $("#user_add_modal input[name=ture_name]").val(), //真实姓名
+						account: $("#user_add_modal input[name=account]").val(), //登录账号
+						phone: $("#user_add_modal input[name=phone]").val(), //手机号
+						sign: $("#user_add_modal [name=sign]").val(), //身份标签
+						p_arr: p_arr($("#user_add_modal")) //可操作项目
+					},
+					success: function(res) {
+						if(res.code) {
+							table.draw(false);
+							$("#user_add_modal").modal("hidden");
+						} else {
+							alert(res.msg);
+						}
+
+					}
+				})
+			})
+			$("#example").on("click", ".del", function() {
+				console.log(eval("(" + $(this).siblings("input").val() + ")"))
+				$("#user_del_modal").find("input[name=id]").val(eval("(" + $(this).siblings("input").val() + ")")["id"])
+				$("#user_del_modal").find("span[name=account]").text(eval("(" + $(this).siblings("input").val() + ")")["account"])
+				$("#user_del_modal").modal("show");
+			})
+
+			$("#user_del_modal .save").click(function() {
+				$.ajax({
+					type: "post",
+					url: url + "user/del.html",
+					data: {
+						id: $("#user_del_modal input[name=id]").val()
+					},
+					success: function(res) {
+						if(res.code == 1) {
+							table.draw(false);
+							$("#user_del_modal").modal("hide");
+						} else {
+							alert(res.msg)
+						}
+
+					}
+				})
 			})
 		</script>
 	</body>
