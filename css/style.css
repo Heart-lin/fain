@@ -4,14 +4,15 @@
 	top: auto;
 	right: auto;
 }
-select{
+.modal select{
 	width:100%;
 	height:34px;
 	padding:6px 12px;
 	font-size:14px;	
 }
 
-.project input[type="checkbox"] + label::before {
+.project input[type="checkbox"] + label::before,
+.type input[type="radio"] + label::before{
     content: "\a0";  /*不换行空格*/
     display: inline-block;
     vertical-align: .2em;
@@ -24,19 +25,44 @@ select{
     line-height: 15px;  /*行高不加单位，子元素将继承数字乘以自身字体尺寸而非父元素行高*/
    color:#fff;
 }
-.project input[type="checkbox"]:checked + label::before {
+.project input[type="checkbox"]:checked + label::before,
+.type input[type="radio"]:checked + label::before{
     content: "\2713";
     background-color: #3C8DBC;
 }
-.project input {
+.project input ,
+.type input{
     position: absolute;
     clip: rect(0, 0, 0, 0);
 }
-.project input[type="checkbox"]:focus + label::before {
+.project input[type="checkbox"]:focus + label::before,
+.type input[type="radio"]:focus + label::before {
     box-shadow: 0 0 .1em .1em #58a;
 }
-.project input[type="checkbox"]:disabled + label::before {
+.project input[type="checkbox"]:disabled + label::before,
+.type input[type="radio"]:disabled + label::before {
     background-color: gray;
     box-shadow: none;
     color: #555;
+}
+
+.inline-block{
+	display: inline-block;
+	
+}
+.box-header .inline-block{
+	margin-right:20px;
+}
+.box-header .inline-block input[type=text]{
+	width:170px;
+	height:34px;
+	padding:10px;
+}
+.select{
+	width:150px;
+	height:34px;
+	margin-left:5px;
+}
+.box-header{
+	padding:10px 20px;
 }

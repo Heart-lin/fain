@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>商务后台</title>
+		<!-- Tell the browser to be responsive to screen width -->
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<!-- Bootstrap 3.3.7 -->
+		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+		<!-- Ionicons -->
+		<link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
+		<!-- DataTables -->
+		<link rel="stylesheet" href="bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+		<!-- Theme style -->
+		<link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+		<!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+		<link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+		<!-- Morris chart -->
+		<link rel="stylesheet" href="bower_components/morris.js/morris.css">
+		<!-- jvectormap -->
+		<link rel="stylesheet" href="bower_components/jvectormap/jquery-jvectormap.css">
+		<!-- Date Picker -->
+		<link rel="stylesheet" href="bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+		<!-- Daterange picker -->
+		<link rel="stylesheet" href="bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+		<!-- bootstrap wysihtml5 - text editor -->
+		<link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+		<link rel="stylesheet" href="css/fr_card.css">
+		<link rel="stylesheet" href="css/fr_style.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+		<!--<link rel="stylesheet" href="dist/css/pub.css?v=20190625">-->
+	</head>
+	<style type="text/css">
+		.power {
+			padding: 20px 20px 0;
+		}
+		
+		.powerNext {
+			position: relative;
+		}
+		
+		.powerNext:before {
+			content: '';
+			position: absolute;
+			left: 6px;
+			top: -20px;
+			width: 1px;
+			height: 100%;
+			background: #ccc;
+			z-index: 1;
+		}
+		
+		.power input[type=checkbox] {
+			margin-right: 5px;
+			width: 14px;
+			height: 14px;
+			position: relative;
+			z-index: 3;
+			vertical-align: sub;
+		}
+		
+		.power ul {
+			padding-left: 30px;
+		}
+		
+		.power label {
+			font-weight: normal;
+		}
+		
+		.power ul>li,
+		.power ol>li,
+		.power dl>dd {
+			padding-inline-start: 0;
+			list-style: none;
+			height: 35px;
+		}
+		
+		.power ul>li {
+			position: relative;
+		}
+		
+		.power ul>li>i {
+			position: absolute;
+			left: -21px;
+			top: 4px;
+			height: 14px;
+			width: 14px;
+			background: url(dist/img/item_close.png);
+			cursor: pointer;
+		}
+		
+		.power ul>li>i.on {
+			background: url(dist/img/item_open.png);
+		}
+		
+		.power ol>li {
+			padding-left: 30px;
+			position: relative;
+		}
+		
+		.power ol>li:before {
+			content: '';
+			position: absolute;
+			top: 13px;
+			left: 6px;
+			height: 1px;
+			width: 24px;
+			background: #ccc;
+		}
+		
+		.power dl>dd {
+			padding-left: 60px;
+			position: relative;
+		}
+		
+		.power dl>dd:before {
+			content: '';
+			position: absolute;
+			top: 13px;
+			left: 36px;
+			height: 1px;
+			width: 24px;
+			background: #ccc;
+		}
+		
+		.power dl>dd:after {
+			content: '';
+			position: absolute;
+			top: -21px;
+			left: 36px;
+			height: 100%;
+			width: 1px;
+			background: #ccc;
+		}
+	</style>
+
+	<body class="hold-transition skin-blue sidebar-mini">
+		<div class="wrapper">
+			<div class="content-wrapper">
+				<section class="content-header ">
+					<ol class="breadcrumb">
+						<li>
+							<a href="#"><i class="fa fa-dashboard"></i>系统设置</a>
+						</li>
+						<li class="active">权限管理</li>
+					</ol>
+				</section>
+				<section class="content">
+					<div class="box box-primary">
+						<div class="box-header with-border">
+
+							<!-- /.box-tools -->
+						</div>
+						<div class="box-body">
+							<div class="row" style="margin: 0;">
+								<div class="col-sm-12" style="margin: 10px 0;padding: 0;">
+									<label class="margin-bottom-none col-xs-3" style="font-weight: normal;line-height: 2;min-width: 200px;">角色名称：<input type="text" class="form-control" id="name"/></label>
+								</div>
+								<div class="col-sm-12" style="margin: 0 0 10px">
+									<button class="btn bg-orange margin-r-5" id="save">保存</button>
+								</div>
+								<div class="col-sm-12">
+									<div class="power"></div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+				</section>
+
+			</div>
+		</div>
+		
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<!-- jQuery UI 1.11.4 -->
+		<script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+		<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+		<script>
+			$.widget.bridge('uibutton', $.ui.button);
+		</script>
+		<!-- Bootstrap 3.3.7 -->
+		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<!-- Morris.js charts -->
+		<script src="bower_components/raphael/raphael.min.js"></script>
+		<script src="bower_components/morris.js/morris.min.js"></script>
+		<!-- Sparkline -->
+		<script src="bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
+		<!-- jvectormap -->
+		<script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+		<script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+		<!-- jQuery Knob Chart -->
+		<script src="bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
+		<!-- daterangepicker -->
+		<script src="bower_components/moment/min/moment.min.js"></script>
+		<script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+		<!-- datepicker -->
+		<script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+		<!-- Bootstrap WYSIHTML5 -->
+		<script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+		<!-- Slimscroll -->
+		<script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+		<!-- FastClick -->
+		<script src="bower_components/fastclick/lib/fastclick.js"></script>
+		<!-- AdminLTE App -->
+		<script src="dist/js/adminlte.min.js"></script>
+		<!-- AdminLTE for demo purposes -->
+		<script src="dist/js/demo.js"></script>
+		<script src="bower_components/chart.js/Chart.js"></script>
+		<!-- DataTables -->
+		<script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+		<script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+		<!--<script type="text/javascript" src="dist/js/pub.js?v=20190625"></script>-->
+
+		<script type="text/javascript" src="js/fr_func.js"></script>
+		<script type="text/javascript" src="js/fr.js"></script>
+		<script type="text/javascript" src="js/nav.js"></script>
+
+		<script type="text/javascript">
+			function addPower(roleDetails){
+				$.ajax({
+					type: "post",
+					url: url + "/system/addRole",
+					async: true,
+					contentType: "application/json",
+					dataType: 'json',
+					data: JSON.stringify({
+						token: localStorage.getItem('fr_token'),
+						name:$("#name").val(),
+						roleDetails:roleDetails,
+						addManager:localStorage.getItem("fr_managerId")
+					}),
+					success:function(res){
+						if(res.returnCode == 501) {
+							ToLogin(res)
+						} else if(res.returnCode == 200) {
+							alert("添加成功!");
+							window.location.href="system_power.html";
+						}else{
+							alert(res.msg);
+						}
+					}
+				})
+			}
+			
+			function update(roleDetails){
+				$.ajax({
+					type: "post",
+					url: url + "/system/updateRole",
+					async: true,
+					contentType: "application/json",
+					dataType: 'json',
+					data: JSON.stringify({
+						token: localStorage.getItem('fr_token'),
+						name:$("#name").val(),
+						id:GetRequest().powerId,
+						roleDetails:roleDetails,
+						addManager:localStorage.getItem("fr_managerId")
+					}),
+					success:function(res){
+						if(res.returnCode == 501) {
+							ToLogin(res)
+						} else if(res.returnCode == 200) {
+							alert("修改成功!");
+							window.location.href="system_power.html";
+						}else{
+							alert(res.msg);
+						}
+					}
+				})
+			}
+			
+			$(function() {
+				$(".treeview").eq(5).addClass("menu-open").find("ul.treeview-menu").show().find("li").eq(2).addClass("active");
+				
+				$(".sidebar a[href='account-power.html']").parent().addClass('active')
+				$(".sidebar a[href='account-power.html']").parent().parent().parent().addClass('active')
+				$('.power').on('click', 'i', function() {
+					if($(this).hasClass('on')) {
+						$(this).removeClass('on')
+						$(this).parent().next().slideDown()
+					} else {
+						$(this).addClass('on')
+						$(this).parent().next().slideUp()
+					}
+				})
+				$('.power').on('click', 'ul>li label', function() {
+					if($(this).find('input[type=checkbox]').prop('checked') == true) {
+						$(this).parent().next().find('input[type=checkbox]').prop('checked', true)
+					} else {
+						$(this).parent().next().find('input[type=checkbox]').prop('checked', false)
+					}
+				})
+				$('.power').on('click', 'ol>li label', function() {
+					if($(this).parent().next().prop('tagName') == 'DL') {
+						if($(this).find('input[type=checkbox]').prop('checked') == true) {
+							$(this).parent().next().find('input[type=checkbox]').prop('checked', true)
+						} else {
+							$(this).parent().next().find('input[type=checkbox]').prop('checked', false)
+						}
+					}
+
+				})
+				$('.power').on('change', 'ol>li label', function() {
+					if($(this).find('input[type=checkbox]').prop('checked') == true) {
+						$(this).closest('.powerNext').prev().find('input[type=checkbox]').prop('checked', true)
+					}
+					var oLabel = $(this).closest('.powerNext').find('input[type=checkbox]')
+					var oThis = $(this)
+					for(var i = 0; i < oLabel.length; i++) {
+						if(oLabel.eq(i).prop('checked') == true) {
+							break;
+						} else if(oLabel.eq(i).prop('checked') == false && i == oLabel.length - 1) {
+							oThis.closest('.powerNext').prev().find('input[type=checkbox]').prop('checked', false)
+						}
+					}
+				})
+				$('.power').on('click', 'dl>dd label', function() {
+					if($(this).find('input[type=checkbox]').prop('checked') == true) {
+						$(this).closest('.powerNext').prev().find('input[type=checkbox]').prop('checked', true)
+					}
+					var oThis = $(this)
+					var oLabelNext = $(this).closest('dl').find('input[type=checkbox]')
+					for(var i = 0; i < oLabelNext.length; i++) {
+						if(oLabelNext.eq(i).prop('checked') == true) {
+							oThis.closest('dl').prev().find('input[type=checkbox]').prop('checked', true)
+
+							break;
+						} else if(oLabelNext.eq(i).prop('checked') == false && i == oLabelNext.length - 1) {
+							oThis.closest('dl').prev().find('input[type=checkbox]').prop('checked', false)
+						}
+					}
+					var oLabel = $(this).closest('.powerNext').find('input[type=checkbox]')
+
+					for(var i = 0; i < oLabel.length; i++) {
+						if(oLabel.eq(i).prop('checked') == true) {
+							break;
+						} else if(oLabel.eq(i).prop('checked') == false && i == oLabel.length - 1) {
+							oThis.closest('.powerNext').prev().find('input[type=checkbox]').prop('checked', false)
+						}
+					}
+				})
+
+				$.ajax({
+					type: "post",
+					url: url + "system/showRoleInfoDetails",
+					async: true,
+					contentType: "application/json",
+					dataType: 'json',
+					data: JSON.stringify({
+						token: localStorage.getItem('fr_token')
+					}),
+					success: function(res) {
+						if(res.returnCode == 501) {
+							ToLogin(res)
+						} else if(res.returnCode == 200) {
+							var data = res.data
+							var str = ''
+							for(var i = 0; i < data.length; i++) {
+								str += '<ul class="col-xs-2" style="min-width:230px"><li><i></i><label><input type="checkbox" code="' + data[i].id + '"/>' + data[i].name + '</label></li>'
+								if(data[i].menu2Data.length != 0) {
+									str += '<div class="powerNext"><ol>'
+									for(var j = 0; j < data[i].menu2Data.length; j++) {
+										str += '<li><label><input type="checkbox" code="' + data[i].menu2Data[j].id + '"/>' + data[i].menu2Data[j].name + '</label></li>'
+										if(data[i].menu2Data[j].hasMore == 1) {
+											str += '<dl>'
+											for(var k = 0; k < data[i].menu2Data[j].menu3Data.length; k++) {
+												str += '<dd><label><input type="checkbox" code="' + data[i].menu2Data[j].menu3Data[k].id + '"/>' + data[i].menu2Data[j].menu3Data[k].name + '</label></dd>'
+											}
+											str += '</dl>'
+										}
+									}
+									str += '</ol></div>'
+								}
+								str += '</ul>'
+
+							}
+							$(".power").append(str)
+							
+							if(GetRequest().powerId){
+								console.log(GetRequest().name)
+								$("#name").val(localStorage.getItem("fr_roleName"));
+								$.ajax({
+									type: "post",
+									url: url + "system/showRoleDetails",
+									async: true,
+									contentType: "application/json",
+									dataType: 'json',
+									data: JSON.stringify({
+										token: localStorage.getItem('fr_token'),
+										roleId:GetRequest().powerId
+									}),
+									success:function(res){
+										$.each(res.data.split(','),function(index,item){
+											$("[code = "+item+"]").prop("checked",true);
+											console.log(item);
+											console.log($("[code = '"+item+"']"));
+										})
+									}
+								})
+							}
+						} else {
+							alert(res.msg)
+						}
+					},
+					error: function() {
+						//					error()
+					}
+				});
+				
+				
+				
+				$("#save").click(function() {
+					var roleDetailsArr=[];
+					$.each($(".power input:checked"),function(index,item){
+						roleDetailsArr.push($(".power input:checked").eq(index).attr("code"));
+					});
+					roleDetails = roleDetailsArr.join(',')
+					if(GetRequest().powerId){
+						update(roleDetails);
+					}else{
+						addPower(roleDetails);
+					}
+				})
+			})
+		</script>
+	</body>
+
+</html>
