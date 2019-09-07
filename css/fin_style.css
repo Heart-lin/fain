@@ -1,0 +1,213 @@
+/*clear*/
+
+body {
+	font-family: 微软雅黑;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+}
+.popup{
+	position:fixed;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	background-color: rgba(0,0,0,.3);
+	z-index:99999999;
+}
+.popup img{
+	display: block;
+	margin:100px auto 0;
+	width:300px;
+}
+
+/*body*/
+
+.content-header>.breadcrumb {
+	position: inherit;
+	float: none;
+	top: auto;
+	right: auto;
+}
+
+.skin-blue .content-header {
+	background-color: #fff;
+	margin-bottom: 20px;
+}
+
+.inline-block {
+	display: inline-block;
+}
+
+.box-header .inline-block {
+	margin-right: 15px;
+	margin-bottom: 10px;
+}
+
+.box-header input, 
+.box-header select,
+.fr_select{
+	display: inline-block;
+	height: 34px;
+	border-radius: 3px;
+	width: 120px;
+	border: 1px solid #ccc;
+	padding: 0 8px;
+}
+
+.box-header input.time {
+	width: 200px;
+}
+
+.code {
+	width: 90px;
+	height: 90px;
+}
+
+.fr_status {
+	position: relative;
+	padding-left: 15px;
+	color: #999;
+}
+
+.fr_status:before {
+	content: "";
+	position: absolute;
+	left: 5px;
+	top: 50%;
+	margin-top: -3px;
+	width: 6px;
+	height: 6px;
+	border-radius: 3px;
+}
+
+.fr_status.fr_success:before {
+	background-color: #52C41A;
+}
+
+.fr_status.fr_info:before {
+	background-color: #1890FF;
+}
+
+.fr_status.fr_default:before {
+	background-color: #ddd;
+}
+
+.fr_status.fr_danger:before {
+	background-color: #dd4b39;
+}
+
+.fr_swich {
+	position: relative;
+	display: inline-block;
+	border: 1px solid #ccc;
+	height: 24px;
+	width: 39px;
+	border-radius: 12px;
+	cursor: pointer;
+}
+
+.fr_swich .fr_swich_body {
+	position: absolute;
+	top: 1px;
+	left: 1px;
+	border: 1px solid #ccc;
+	width: 20px;
+	height: 20px;
+	border-radius: 10px;
+	background-color: #fff;
+}
+
+.fr_swich .fr_swich_txt {
+	position: absolute;
+	top: 1px;
+	left: 40px;
+	width: 40px;
+	height: 20px;
+	line-height: 20px;
+	border-radius: 10px;
+}
+
+.fr_swich.active {
+	background-color: #1890FF;
+}
+
+.fr_swich.active .fr_swich_body {
+	left: 16px;
+	border: 1px solid #fff;
+}
+
+.fr_swich.active .fr_swich_txt {
+	color: #1890FF;
+}
+
+
+/*text*/
+
+.fr_bigText {
+	font-size: 16px;
+}
+
+.fr_tab {
+	padding: 0;
+	margin: 0;
+}
+
+.fr_tab li {
+	position: relative;
+	float: left;
+	list-style: none;
+	padding: 0 20px;
+	line-height: 40px;
+	cursor: pointer;
+	background-color: #fff;
+	transition: background-color 1s;
+}
+
+.fr_tab li.active {
+	color: #3c8dbc;
+	background-color: #E7F4FF;
+	border-bottom: 2px solid #E7F4FF;
+}
+
+.fr_tab li:before {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 0px;
+	height: 3px;
+	background-color: #3c8dbc;
+	transition: width 1s;
+}
+
+.fr_tab li.active:before {
+	width: 100%;
+	overflow: hidden;
+}
+
+.fr_tab_body {
+	display: none;
+	width: 100%;
+	overflow: hidden;
+	/*background-color: #000;*/
+	transition: height ease-in-out 1s;
+	float: left;
+}
+
+.fr_tab_body.fr_tab_body_active {
+	display: block;
+	width: 100%;
+}
+
+.fr_title {
+	display: inline-block;
+	line-height: 40px;
+	background-color: #aaa;
+	font-size: 14px;
+	padding: 0 15px;
+	color: #fff;
+	margin: 20px 0;
+}

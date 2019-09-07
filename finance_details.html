@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>收支明细</title>
+		<title>财务系统</title>
 		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
@@ -30,15 +31,14 @@
 				</section>
 				<section class="content">
 					<div class="box box-primary">
-						<div class="box-header with-border parents" id="search_header" >
+						<div class="box-header with-border parents" id="search_header">
 							<div class="inline-block">
-								<input type="text" placeholder="输入项目关键词搜索" name="order_name"/>
+								<input type="text" placeholder="输入项目关键词搜索" name="order_name" />
 							</div>
 							<div class="inline-block">
 								<span>时间：</span>
-								<input type="text" class=" time" id="startTime" placeholder="开始时间"/>
-								-
-								<input type="text" class=" time" id="endTime" placeholder="结束时间"/>
+								<input type="text" class=" time" id="startTime" placeholder="开始时间" /> -
+								<input type="text" class=" time" id="endTime" placeholder="结束时间" />
 							</div>
 							<div class="inline-block">
 								<span>项目</span>
@@ -53,7 +53,7 @@
 								<select class="select" type="text" name="currency_id"></select>
 							</div>
 							<div class="inline-block">
-								<button class="btn bg-green margin-r-5" id="search">搜索</button>
+								<button class="btn btn-info margin-r-5" id="search">搜索</button>
 							</div>
 						</div>
 						<!-- /.box-header -->
@@ -65,14 +65,17 @@
 										<table id="example" class="display nowrap table table-bordered table-striped" style="width:100%;">
 											<thead>
 												<tr>
-													<th>订单名称</th>
-													<th>项目金额</th>
-													<th>所属项目</th>
-													<th>项目类型</th>
-													<th>发起人</th>
-													<th>收支类型</th>
+													<th>日期</th>
+													<th>说明</th>
+													<th>项目</th>
+													<th>类型</th>
+													<th>币种</th>
 													<th>凭证</th>
-													<th>附件</th>
+													<th>图片</th>
+													<th>发起人</th>
+													<th>审核员</th>
+													<th>出纳</th>
+													<th>状态</th>
 													<th>操作</th>
 												</tr>
 											</thead>
@@ -89,12 +92,35 @@
 				</div>
 			</section>
 		</div>
+		<div class="modal fade" id="order_del_modal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  						<span aria-hidden="true">&times;</span>
+									</button>
+						<h4 class="modal-title">类型删除</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal">
+							<div class="box-body">
+								<input type="hidden" name="id" />
+								<p>是否删除订单“<span name="order_name"></span>”</p>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary save">删除</button>
+					</div>
+				</div>
+			</div>
+		</div>
 		<script src="bower_components/jquery/dist/jquery.min.js"></script>
 		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="dist/js/adminlte.min.js"></script>
-		
+
 		<script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-		
+
 		<script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 		<script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 		<script src="js/finance.js"></script>
@@ -102,300 +128,286 @@
 		<script src="js/fina_fun.js"></script>
 		<script src="js/condition.js"></script>
 		<script type="text/javascript">
-			
-			
-//			$.ajax({
-//				type: 'post',
-//				url: url + "project/lst.html",
-//				success: function(res) {
-//					var data1 = eval('(' + res.msg + ')');
-//					$(".p_id").append("<option>请选择</option>")
-//					$.each(data1.data, function(index, item) {
-//						$(".p_id").append("<option value=" + item.id + ">" + item.pro_name + "</option>")
-//					})
-//				}
-//			})
-//			
-//			$.ajax({
-//				type: 'post',
-//				url: url + "currency/lst.html ",
-//				success: function(res) {
-//					var data1 = eval('(' + res.msg + ')');
-//					$("[name=currency_id]").append("<option>请选择</option>")
-//					$.each(data1.data, function(index, item) {
-//						$("[name=currency_id]").append("<option value=" + item.id + ">" + item.currency_name + "</option>")
-//					})
-//				}
-//			})
-//			function p_id(_this, value) {
-//				_this.parents(".modal").find(".t_id").prop("disabled", "disabled")
-//				$.ajax({
-//					type: "post",
-//					url: url + "type/type_pid.html",
-//					data: {
-//						id: _this.val(),
-//					},
-//					success: function(res) {
-//						_this.parents(".modal").find(".t_id").empty()
-//						if(res.msg) {
-//							_this.parents(".modal").find(".t_id").append("<option>请选择</option>")
-//							$.each(eval("(" + res.msg + ")"), function(index, item) {
-//								_this.parents(".modal").find(".t_id").append("<option value=" + item.id + ">" + item.type_name + "</option>")
-//							})
-//							// 编辑
-//							if(value) {
-//								_this.parents(".modal").find(".t_id").val(value);
+			$(function() {
+				$('#startTime').datepicker({
+					autoclose: true,
+					format: 'yyyy-mm-dd',
+				})
+				$('#endTime').datepicker({
+					autoclose: true,
+					format: 'yyyy-mm-dd',
+				})
+				
+//				$(".pic").change(function() {
+//					var _this = $(this);
+//					var sendData = new FormData();
+//					sendData.append('pic', _this[0].files[0]);
+//					$.ajax({
+//						type: "post",
+//						async: true,
+//						processData: false,
+//						contentType: false,
+//						url: url + "order/pic_file.html",
+//						data: sendData,
+//						success: function(res) {
+//							if(res.code == 1) {
+//								_this.siblings(".picId").val(res.img);
+//								_this.siblings("label").find("img").attr("src", picUrl + res.img);
+//							} else {
+//								_this.val("");
+//								alert(res.msg);
 //							}
-//						} else {
-//							_this.parents(".modal").find(".t_id").append("<option>项目类型为空</option>")
+//						}
+//					})
+//				})
+//
+//				$("[name=fujian]").change(function() {
+//					var _this = $(this);
+//					var sendData = new FormData();
+//					sendData.append('fujian', _this[0].files[0]);
+//					//				return false;
+//					$.ajax({
+//						type: "post",
+//						async: true,
+//						processData: false,
+//						contentType: false,
+//						url: url + "order/fujian_file.html",
+//						data: sendData,
+//						success: function(res) {
+//							if(res.code == 1) {
+//								_this.siblings(".addfujianId").val(res.img);
+//								//_this.siblings("label").find("img").attr("src",picUrl+res.img);
+//							} else {
+//								_this.val("");
+//								alert(res.msg);
+//							}
+//						}
+//					})
+//				})
+
+				var table = $('#example').DataTable({
+					'ordering': false,
+					'lengthChange': false,
+					'searching': false,
+					'info': true,
+					"processing": true,
+					"serverSide": true,
+					"scrollX": true,
+					"ajax": {
+						"type": 'post',
+						"url": url + "order/lst.html",
+						"data": function(d) {
+							var data = {
+								page: d.start / 10 + 1,
+								order_name: $("#search_header [name=order_name]").val(),
+								p_id: $("#search_header [name=p_id]").val(),
+								t_id: $("#search_header [name=t_id]").val(),
+								currency_id: $("#search_header [name=currency_id]").val(),
+								time_start: $("#startTime").val(),
+								end_start: $("#endTime").val()
+							}
+							return data;
+						},
+						"dataFilter": function(data) {
+							var data1 = eval('(' + data + ')');
+							var datajson = eval('(' + data1.msg + ')');
+							console.log(datajson)
+							var json = {};
+							json.recordsTotal = datajson.total;
+							json.recordsFiltered = datajson.total;
+							json.data = datajson.data;
+							return JSON.stringify(json);
+						}
+					},
+					"columns": [{
+							data: null,
+							render: function(data) {
+								return timestampToTime(data.addtime);
+							}
+						},
+						
+						{
+							data: 'order_name'
+						},
+						{
+							data: 'pro_name'
+						},
+						{
+							data: 'type_name'
+						},
+						{
+							data: 'currency_name'
+						},
+						{
+							data: null,
+							render: function(data) {
+								var str = "";
+								if(data.fujian) {
+									var arr = data.fujian.split(".");
+									str = '<a class="btn bg-green margin-r-5"href="' + picUrl + data.fujian + '" download="fujian.' + arr[arr.length] + '">下载附件</a>';
+								}
+								return str ;
+							}
+						},
+						{
+							data: null,
+							render: function(data) {
+								var picStr="";
+								if(data.pic) {
+									picStr = "<img src=" + picUrl + data.pic + " style='width:100px;'>";
+								}
+								return picStr;
+							}
+						},
+						{
+							data: 'ture_name',
+
+						},
+						{
+							data: 'examine', //审核员
+
+						},
+						{
+							data: 'cashier', //出纳员
+
+						},
+						{
+						//cashier {
+							data: null,
+							render: function(data) {
+								//examine_state 1:待审核 2审核通过 3驳回
+								//result_state  1:未出纳 2：出纳通过 3驳回  
+								return status(data);
+							}
+						},
+						{
+							data: null,
+							render: function(data) {
+								var inputStr = "<input type='hidden' value='" + JSON.stringify(data) + "'>";
+								var str = "";
+								if(data.xamine_state == 1|| !data.xamine_state) {
+									str = '<button class="btn btn-info margin-r-5 del">删除</button>';
+								} else if(data.xamine_state == 2) {
+									if(data.result_state != 1&&data.result_state) {
+										str = '<button class="btn btn-default margin-r-5" disable>完成</button>';
+									} else {
+										str = '<button class="btn btn-default margin-r-5" disable>已审核</button>';
+									}
+								} else if(data.xamine_state == 3) {
+									str = '<button class="btn btn-default margin-r-5" disable>完成</button>';
+								}
+								return inputStr+str;
+							}
+						}
+					]
+				})
+
+
+				$("#search").click(function(){
+					table.ajax.reload();
+				})
+//
+//				
+
+				$("#example").on("click", ".del", function() {
+					var item = eval("(" + $(this).siblings("input").val() + ")")
+					$("#order_del_modal [name=id]").val(item.id);
+					$("#order_del_modal [name=order_name]").text(item.order_name);
+					$("#order_del_modal").modal("show");
+				})
+
+				$("#order_del_modal .save").click(function() {
+					$.ajax({
+						type: 'post',
+						url: url + "order/del.html",
+						data: {
+							id: $("#order_del_modal [name=id]").val()
+						},
+						success: function(res) {
+							if(res.code == 1) {
+								alert(res.msg);
+								$("#order_del_modal").modal("hide");
+								table.draw(false);
+							} else {
+								alert(res.msg)
+							}
+						}
+					})
+				})
+				
+//				$("#order_add_modal .save").click(function() {
+//					var data = {
+//						money: $("#order_add_modal [name=money]").val(), //金额
+//						order_name: $("#order_add_modal [name=order_name]").val(), //订单名称
+//						p_id: $("#order_add_modal .p_id").val(), //所属项目
+//						t_id: $("#order_add_modal .t_id").val(), //所属项目类型
+//
+//						pic: $("#order_add_modal .picId").val(),
+//						fujian: $("#order_add_modal .addfujianId").val(), // 上传附件
+//						type: $("#order_add_modal [name=type]").val(), // 订单类型 1支出 2收入
+//						currency_id: $("#order_add_modal [name=currency_id]").val(),
+//					}
+//					$.ajax({
+//						type: "post",
+//						url: url + "order/add.html",
+//						data: data,
+//						success: function(res) {
+//							if(res.code == 1) {
+//								alert(res.msg);
+//								$("#order_add_modal").modal("hide");
+//								table.draw(false);
+//							} else {
+//								alert(res.msg)
+//							}
 //						}
 //
-//						_this.parents(".modal").find(".t_id").prop("disabled", false)
-//					}
+//					})
 //				})
-//			}
-//			
-//			$(".p_id").change(function() {
-//				var _this = $(this)
-//				p_id(_this)
-//			})
-			
-			$(".pic").change(function(){
-				var _this = $(this);
-				var sendData = new FormData();
-				sendData.append('pic', _this[0].files[0]);
-				$.ajax({
-					type: "post",
-					async: true,
-					processData: false,
-					contentType: false,
-					url: url + "order/pic_file.html",
-					data: sendData,
-					success: function(res) {
-						if(res.code == 1) {
-							_this.siblings(".picId").val(res.img);
-							_this.siblings("label").find("img").attr("src",picUrl+res.img);
-						} else {
-							_this.val("");
-							alert(res.msg);
-						}
-					}
-				})
-			})
-			
-			$("[name=fujian]").change(function() {
-				var _this = $(this);
-				var sendData = new FormData();
-				sendData.append('fujian', _this[0].files[0]);
-				//				return false;
-				$.ajax({
-					type: "post",
-					async: true,
-					processData: false,
-					contentType: false,
-					url: url + "order/fujian_file.html",
-					data: sendData,
-					success: function(res) {
-						if(res.code == 1) {
-							_this.siblings(".addfujianId").val(res.img);
-							//_this.siblings("label").find("img").attr("src",picUrl+res.img);
-						} else {
-							_this.val("");
-							alert(res.msg);
-						}
-					}
-				})
-			})
 
-			var table = $('#example').DataTable({
-				'ordering': false,
-				'lengthChange': false,
-				'searching': false,
-				'info': true,
-				"processing": true,
-				"serverSide": true,
-				"scrollX": true,
-				"ajax": {
-					"type": 'post',
-					"url": url + "order/lst.html",
-					"data": function(d) {
-						console.log(d);
-						var data = {
-							page: d.start / 10 + 1,
-							order_name:"香蕉",
-//							p_id:$("#search_header [name=p_id]").val(),
-							p_id:1,
-//							t_id:$("#search_header [name=t_id]").val(),
-//							currency_id:$("#search_header [name=currency_id]").val(),
-//							time_start:$("#search_header [name=time_start]").val(),
-//							end_start:$("#search_header [name=end_start]").val()
-						}
-						return data;
-					},
-					"dataFilter": function(data) {
-						var data1 = eval('(' + data + ')');
-						var datajson = eval('(' + data1.msg + ')');
-						var json = {};
-						json.recordsTotal = datajson.total;
-						json.recordsFiltered = datajson.total;
-						json.data = datajson.data;
-						return JSON.stringify(json);
-					}
-				},
-				"columns": [{
-						data: 'order_name'
-					},
-					{
-						data: 'money'
-					},
-					{
-						data: 'pro_name'
-					},
-					{
-						data: 'type_name',
+//				$("#example").on("click", ".edit", function() {
+//					var item = eval("(" + $(this).siblings("input").val() + ")")
+//					$("#order_edit_modal [name=id]").val(item.id);
+//					$("#order_edit_modal [name=money]").val(item.money); //金额
+//					$("#order_edit_modal [name=order_name]").val(item.order_name); //名字
+//					$("#order_edit_modal .p_id").val(item.p_id);
+//					//				$("#order_edit_modal .p_id").val(item.p_id);
+//					$("#order_edit_modal [name=type]").val(item.type); //
+//
+//					p_id($("#order_edit_modal .p_id"), item.t_id)
+//
+//					$("#order_edit_modal .picId").val(item.pic);
+//					$("#editPic").val(picUrl + item.pic);
+//
+//					$("#order_edit_modal").modal("show");
+//				})
 
-					},
-					
-					{
-						data: 'ture_name',
-
-					},
-					{
-						data: null,
-						render: function(data) {
-							return order_type(data.type);
-						}
-					},
-					{
-						data: null,
-						render: function(data) {
-							if(data.pic){
-								return "<img src="+picUrl+data.pic+" style='width:100px;'>";
-							}else{
-								return ""
-							}
-							
-						}
-					},
-					{
-						data: null,
-						render: function(data) {
-							var str = "<input type='hidden' value='" + JSON.stringify(data) + "'>";
-							return str + '<button class="btn bg-green margin-r-5 downloan">下载附件</button>';
-						} //下载
-					},
-					{
-						data: null,
-						render: function(data) {
-							var str = "<input type='hidden' value='" + JSON.stringify(data) + "'>";
-							return str + '<button class="btn bg-green margin-r-5 edit">编辑</button><button class="btn bg-green margin-r-5 del">删除</button>';
-						} //下载
-					}
-				]
-			})
-
-			$("#add").click(function() {
-				$("#order_add_modal").modal("show");
-			})
-
-			$("#order_add_modal .save").click(function() {
-				var data={
-						money: $("#order_add_modal [name=money]").val(), //金额
-						order_name: $("#order_add_modal [name=order_name]").val(), //订单名称
-						p_id: $("#order_add_modal .p_id").val(), //所属项目
-						t_id: $("#order_add_modal .t_id").val(), //所属项目类型
-						
-						pic:  $("#order_add_modal .picId").val(),
-						fujian: $("#order_add_modal .addfujianId").val(), // 上传附件
-						type: $("#order_add_modal [name=type]").val(), // 订单类型 1支出 2收入
-						currency_id:$("#order_add_modal [name=currency_id]").val(),
-				}
-				$.ajax({
-					type: "post",
-					url: url + "order/add.html",
-					data: data,
-					success: function(res) {
-						if(res.code == 1) {
-							alert(res.msg);
-							$("#order_add_modal").modal("hide");
-							table.draw(false);
-						} else {
-							alert(res.msg)
-						}
-					}
-
-				})
-			})
-
-			$("#example").on("click", ".edit", function() {
-				var item = eval("(" + $(this).siblings("input").val() + ")")
-				$("#order_edit_modal [name=id]").val(item.id);
-				$("#order_edit_modal [name=money]").val(item.money); //金额
-				$("#order_edit_modal [name=order_name]").val(item.order_name); //名字
-				$("#order_edit_modal .p_id").val(item.p_id);
-//				$("#order_edit_modal .p_id").val(item.p_id);
-				$("#order_edit_modal [name=type]").val(item.type); //
-				
-				p_id($("#order_edit_modal .p_id"), item.t_id)
-				
-				$("#order_edit_modal .picId").val(item.pic);
-				$("#editPic").val(picUrl+item.pic);
-				
-				$("#order_edit_modal").modal("show");
-			})
-
-			$("#order_edit_modal .save").click(function() {
-				$.ajax({
-					type: "post",
-					url: url + "order/edit.html",
-					data: {
-						money: $("#order_edit_modal [name=money]").val(), //金额
-						order_name: $("#order_edit_modal [name=order_name]").val(), // 订单名称
-						p_id: $("#order_edit_modal [name=p_id]").val(),
-						t_id: $("#order_edit_modal [name=t_id]").val(),
-						
-						pic:  $("#order_edit_modal .picId").val(),
-						fujian: $("#order_edit_modal .addfujianId").val(), //上传附件
-						type: $("#order_edit_modal [name=type]").val(),
-						id: $("#order_edit_modal [name=id]").val(),
-						currency_id:$("#order_add_modal [name=currency_id]").val(),
-					},
-					success: function(res) {
-						if(res.code == 1) {
-							alert(res.msg);
-							$("#order_edit_modal").modal("hide");
-							table.draw(false);
-						} else {
-							alert(res.msg)
-						}
-					}
-				})
-			})
-
-			$("#example").on("click", ".del", function() {
-				var item = eval("(" + $(this).siblings("input").val() + ")")
-				$("#order_del_modal [name=id]").val(item.id);
-				$("#order_del_modal [name=order_name]").text(item.order_name);
-				$("#order_del_modal").modal("show");
-			})
-
-			$("#order_del_modal .save").click(function() {
-				$.ajax({
-					type: 'post',
-					url: url + "order/del.html",
-					data: {
-						id: $("#order_del_modal [name=id]").val()
-					},
-					success: function(res) {
-						if(res.code == 1) {
-							alert(res.msg);
-							$("#order_del_modal").modal("hide");
-							table.draw(false);
-						} else {
-							alert(res.msg)
-						}
-					}
-				})
+//				$("#order_edit_modal .save").click(function() {
+//					$.ajax({
+//						type: "post",
+//						url: url + "order/edit.html",
+//						data: {
+//							money: $("#order_edit_modal [name=money]").val(), //金额
+//							order_name: $("#order_edit_modal [name=order_name]").val(), // 订单名称
+//							p_id: $("#order_edit_modal [name=p_id]").val(),
+//							t_id: $("#order_edit_modal [name=t_id]").val(),
+//
+//							pic: $("#order_edit_modal .picId").val(),
+//							fujian: $("#order_edit_modal .addfujianId").val(), //上传附件
+//							type: $("#order_edit_modal [name=type]").val(),
+//							id: $("#order_edit_modal [name=id]").val(),
+//							currency_id: $("#order_add_modal [name=currency_id]").val(),
+//						},
+//						success: function(res) {
+//							if(res.code == 1) {
+//								alert(res.msg);
+//								$("#order_edit_modal").modal("hide");
+//								table.draw(false);
+//							} else {
+//								alert(res.msg)
+//							}
+//						}
+//					})
+//				})
 			})
 		</script>
 	</body>

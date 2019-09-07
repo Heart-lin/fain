@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>AdminLTE 2 | user</title>
+		<title>财务系统</title>
 		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
@@ -37,10 +37,17 @@
 				</section>
 				<section class="content">
 					<div class="box box-primary">
-						<div class="box-header with-border">
+						<div class="box-header with-border parents" id="search_header">
 							<div class="inline-block">
-								<button class="btn bg-green margin-r-5" id="add">添加</button>
+								<input type="text" placeholder="请输入姓名搜索" name="ture_name" />
 							</div>
+							<div class="inline-block">
+								<button class="btn btn-info margin-r-5" id="search">搜索</button>
+							</div>
+							<div class="inline-block">
+								<button class="btn btn-info margin-r-5" id="add">添加新用户</button>
+							</div>
+							
 						</div>
 						<!-- /.box-header -->
 						<div class="box-body">
@@ -51,19 +58,19 @@
 										<table id="example" class="display nowrap table table-bordered table-striped" style="width:100%;">
 											<thead>
 												<tr>
-													<th>id</th>
+													<th>序号</th>
 													<th>账号</th>
-													<th>真实姓名</th>
-													<th>角色</th>
+													<th>姓名</th>
+													<th>项目</th>
+													<th>权限</th>
+													<th>状态</th>
 													<th>操作</th>
 												</tr>
 											</thead>
 											<tbody></tbody>
 										</table>
 									</div>
-									<!-- /.box-body -->
 								</div>
-								<!-- /.box -->
 							</div>
 						</div>
 					</div>
@@ -108,18 +115,17 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="account" class="col-sm-3 control-label">身份标签</label>
+									<label for="account" class="col-sm-3 control-label">角色</label>
 									<div class="col-sm-9">
-										<select name="sign">
-											<option value="1">管理员</option>
-											<option value="2">出纳</option>
-											<option value="3">报账人</option>
-										</select>
+										<select name="auth_group" id=""></select>
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="account" class="col-sm-3 control-label">可操作项目</label>
-									<div class="col-sm-9 project" style="padding-top:7px;"></div>
+									<label for="account" class="col-sm-3 control-label" style="padding-top:20px;">可操作项目</label>
+									<div class="col-sm-9" >
+										<label for="p_id_more"></label>
+										<select name="p_id_more" class="selectpicker bla bla bli" multiple data-live-search="true"></select>
+									</div>
 								</div>
 
 							</div>
@@ -144,6 +150,7 @@
 						<form class="form-horizontal">
 							<div class="box-body">
 								<div class="form-group">
+									<input type="hidden" name="id"/>
 									<label for="account" class="col-sm-3 control-label">真实姓名</label>
 									<div class="col-sm-9">
 										<input type="text" class="form-control" name="ture_name">
@@ -162,18 +169,16 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="account" class="col-sm-3 control-label">身份标签</label>
+									<label for="account" class="col-sm-3 control-label">角色</label>
 									<div class="col-sm-9">
-										<select name="sign">
-											<option value="1">管理员</option>
-											<option value="2">出纳</option>
-											<option value="3">报账人</option>
-										</select>
+										<select name="auth_group"></select>
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="account" class="col-sm-3 control-label">可操作项目</label>
-									<div class="col-sm-9 project" style="padding-top:7px;">
+									<label for="account" class="col-sm-3 control-label" style="padding-top:20px;">可操作项目</label>
+									<div class="col-sm-9">
+										<label for="id_select"></label>
+										<select name="p_id_more" class="selectpicker bla bla bli" multiple data-live-search="true"></select>
 									</div>
 								</div>
 
@@ -212,7 +217,10 @@
 		<script src="bower_components/jquery/dist/jquery.min.js"></script>
 		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="dist/js/adminlte.min.js"></script>
-
+		
+		<script type="text/javascript" src="js/bootstrap-select.js"></script>
+ 		<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+		
 		<script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 		<script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 
@@ -222,30 +230,8 @@
 		<script src="js/nav.js"></script>
 		<script src="js/finance.js"></script>
 		<script src="js/fina_fun.js"></script>
+		<script src="js/condition.js"></script>
 		<script type="text/javascript">
-			function p_arr($_modal) {
-				var arr = [];
-				$.each($_modal.find(".project input:checked"), function(index, item) {
-					arr.push($(item).val());
-				})
-				return arr;
-			}
-			$(".li").eq(4).addClass("active").parents(".treeview").addClass("menu-open active");
-			
-			$.ajax({
-				type: "post",
-				url: url + "type/lst.html",
-				data: {},
-				success: function(res) {
-					var data1 = res;
-					var datajson = eval('(' + data1.msg + ')');
-					$.each(datajson.data, function(index, item) {
-						$("#user_add_modal .project").append('<input type="checkbox" id="user_add_' + item.p_id + '" value="' + item.p_id + '">A')
-						$("#user_edit_modal .project").append('<input type="checkbox" id="user_edit_' + item.p_id + '" value="' + item.p_id + '"><label for="user_edit_' + item.p_id + '">' + item.type_name + '</label>')
-					})
-				}
-			})
-
 			var table = $('#example').DataTable({
 				'ordering': false,
 				'lengthChange': false,
@@ -258,25 +244,19 @@
 					"url": url + "user/lst.html",
 					"data": function(d) {
 						var data = {
-							page: d.start / 10 + 1
+							page: d.start / 10 + 1,
+							ture_name:$("#search_header [name=ture_name]").val()
 						}
 						return data;
 					},
 					"dataFilter": function(data) {
-						console.log(data)
 						var data1 = eval('(' + data + ')');
 						var datajson = eval('(' + data1.msg + ')');
-						console.log(datajson);
-						//							if(data1.code == 501) {
-						//								ToLogin(datajson)
-						//							} else if(data1.code == 500) {
-						//								alert(datajson.msg)
-						//								return false;
-						//							}
 						var json = {};
-						json.recordsTotal = datajson.total;
-						json.recordsFiltered = datajson.total;
-						json.data = datajson.data;
+						
+						json.recordsTotal = datajson.length;
+						json.recordsFiltered = datajson.length;
+						json.data = datajson;
 						return JSON.stringify(json);
 					}
 				},
@@ -289,18 +269,24 @@
 					{
 						data: 'ture_name'
 					},
+					{
+						data: 'p_arr'
+					},
+					{
+						data: 'title'
+					},
 
 					{
 						data: null,
 						render: function(data) {
-							return user(data.sign)
+							return data.state;
 						}
 					},
 					{
 						data: null,
 						render: function(data) {
 							var str = "<input type='hidden' value='" + JSON.stringify(data) + "'>";
-							return str + '<button class="btn bg-green margin-r-5 edit">编辑</button><button class="btn bg-green margin-r-5 del">删除</button>';
+							return str + '<button class="btn btn-info margin-r-5 edit">编辑</button><button class="btn btn-info margin-r-5 del">删除</button>';
 						} //下载
 					}
 				]
@@ -308,25 +294,28 @@
 
 			$("#add").click(function() {
 				$("#user_add_modal").modal("show");
-				$("#user_add_modal").val("");
+				$("#user_add_modal input").val("");
 			})
 
 			$("#user_add_modal .save").click(function() {
-				$.ajax({
-					type: "post",
-					url: url + "user/add.html",
-					data: {
+				console.log($("#user_add_modal [name=p_id_more]").val());
+				var data = {
 						ture_name: $("#user_add_modal input[name=ture_name]").val(), //真实姓名
 						account: $("#user_add_modal input[name=account]").val(), //登录账号
 						password: $("#user_add_modal input[name=password]").val(), //登录密码
 						phone: $("#user_add_modal input[name=phone]").val(), //手机号
-						sign: $("#user_add_modal [name=sign]").val(), //身份标签
-						p_arr: p_arr($("#user_add_modal")) //可操作项目
-					},
+						sign:"1", //身份标签
+						p_arr:$("#user_add_modal [name=p_id_more]").val(), //可操作项目
+						group_id:$("#user_add_modal [name=auth_group]").val()
+				};
+				$.ajax({
+					type: "post",
+					url: url + "user/add.html",
+					data:data,
 					success: function(res) {
 						if(res.code) {
 							table.draw(false);
-							$("#user_add_modal").modal("hidden");
+							$("#user_add_modal").modal("hide");
 						} else {
 							alert(res.msg);
 						}
@@ -337,17 +326,18 @@
 
 			$("#example").on("click", ".edit", function() {
 				$.each(eval("(" + $(this).siblings("input").val() + ")"), function(index, item) {
-					if(index == "sign") {
-						$("#user_edit_modal select[name=" + index + "]").val(item)
+					if(index == "group_id") {
+						$("#user_edit_modal select[name=auth_group]").val(item)
 					} else if(index == "p_arr") {
-						$.each(item.split(","), function(index, item) {
-							console.log($(".project [value=" + item + "]"))
-							$(".project [value=" + item + "]").prop("checked", true);
-						})
+						console.log(item);
+						var p_arr = item.split(",")
+//							$('.selectpicker').selectpicker('deselectAll');
+						$('#user_edit_modal [name=p_id_more]').selectpicker('val',p_arr);
+						$('#user_edit_modal [name=p_id_more]').selectpicker('render');
+					}else{
+						$(" input[name=" + index + "]").val(item);
 					}
-					$(" input[name=" + index + "]").val(item);
 				})
-
 				$("#user_edit_modal").modal("show");
 			})
 
@@ -356,16 +346,18 @@
 					type: "post",
 					url: url + "user/edit.html",
 					data: {
-						ture_name: $("#user_add_modal input[name=ture_name]").val(), //真实姓名
-						account: $("#user_add_modal input[name=account]").val(), //登录账号
-						phone: $("#user_add_modal input[name=phone]").val(), //手机号
-						sign: $("#user_add_modal [name=sign]").val(), //身份标签
-						p_arr: p_arr($("#user_add_modal")) //可操作项目
+						id:$("#user_edit_modal [name=id]").val(),
+						ture_name: $("#user_edit_modal input[name=ture_name]").val(), //真实姓名
+						account: $("#user_edit_modal input[name=account]").val(), //登录账号
+						phone: $("#user_edit_modal input[name=phone]").val(),//手机号
+						group_id:$("#user_edit_modal [name=auth_group]").val(),//juese
+						sign: 1, //身份标签
+						p_arr: $("#user_edit_modal [name=p_id_more]").val() //可操作项目
 					},
 					success: function(res) {
 						if(res.code) {
 							table.draw(false);
-							$("#user_add_modal").modal("hidden");
+							$("#user_edit_modal").modal("hide");
 						} else {
 							alert(res.msg);
 						}
@@ -392,7 +384,7 @@
 							table.draw(false);
 							$("#user_del_modal").modal("hide");
 						} else {
-							alert(res.msg)
+							alert(res.msg);
 						}
 
 					}
@@ -400,5 +392,4 @@
 			})
 		</script>
 	</body>
-
 </html>

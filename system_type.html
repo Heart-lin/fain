@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>AdminLTE 2 | system</title>
+		<title>财务系统</title>
 		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
@@ -15,6 +15,13 @@
 		<link rel="stylesheet" href="bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 		<link rel="stylesheet" href="bower_components/bootstrap-daterangepicker/daterangepicker.css">
+		<style>
+			textarea{
+				width:100%;
+				height:70px;
+				padding:10px;
+			}
+		</style>
 	</head>
 
 	<body class="hold-transition skin-blue sidebar-mini">
@@ -32,11 +39,9 @@
 				<section class="content">
 					<div class="box box-primary">
 						<div class="box-header with-border">
-								<div class="inline-block">
-									<button class="btn bg-green margin-r-5" id="add">添加</button>
-								</div>
-								
-							<!-- /.box-tools -->
+							<div class="inline-block">
+								<button class="btn btn-info margin-r-5" id="add">添加</button>
+							</div>
 						</div>
 						<!-- /.box-header -->
 						<div class="box-body">
@@ -47,8 +52,8 @@
 										<table id="example" class="display nowrap table table-bordered table-striped" style="width:100%;">
 											<thead>
 												<tr>
-													<th>id</th>
-													<th>类型名称</th>
+													<th class="pro_type"></th>
+													<th>说明</th>
 													<!--<th>是否可编辑</th>-->
 													<th>操作</th>
 												</tr>
@@ -87,19 +92,15 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="account" class="col-sm-3 control-label">项目id</label>
-									<div class="col-sm-9">
-										<select name="p_id" id="p_id_select"></select>
+									<label for="account" class="col-sm-3 control-label">是否可删除</label>
+									<div class="col-sm-9 type" style="padding-top:7px;">
+										<div class="fr_swich active" value="1"><div class="fr_swich_body"></div><span class="fr_swich_txt">开 </span></div>
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="account" class="col-sm-3 control-label">是否可编辑</label>
+									<label for="account" class="col-sm-3 control-label">说明</label>
 									<div class="col-sm-9 type" style="padding-top:7px;">
-										<input type="radio" name="is_edit" id="typeAddId" value="1" checked>
-										<label for="typeAddId"><span>是</span></label>
-										&nbsp;&nbsp;
-										<input type="radio" name="is_edit" id="typeAddId2" value="2">
-										<label for="typeAddId2">否</label>
+										<textarea name="dec" id="" style="width:100%;height:50px;"></textarea>
 									</div>
 								</div>
 							</div>
@@ -124,8 +125,7 @@
 						<form class="form-horizontal">
 							<div class="box-body">
 								<div class="form-group">
-									<input type="hidden" name="id"/>									
-									<input type="hidden" name="p_id"/>
+									<input type="hidden" name="id"/>
 									<label for="account" class="col-sm-3 control-label">类型名称</label>
 									<div class="col-sm-9">
 										<input type="hidden" name="id"/>
@@ -133,13 +133,15 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="account" class="col-sm-3 control-label">是否可编辑</label>
+									<label for="account" class="col-sm-3 control-label">是否可删除</label>
 									<div class="col-sm-9 type" style="padding-top:7px;">
-										<input type="radio" name="is_edit" id="typeAddId" value="1">
-										<label for="typeAddId"><span>是</span></label>
-										&nbsp;&nbsp;
-										<input type="radio" name="is_edit" id="typeAddId2" value="2">
-										<label for="typeAddId2">否</label>
+										<div class="fr_swich active"><div class="fr_swich_body"></div><span class="fr_swich_txt">开 </span></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="account" class="col-sm-3 control-label">说明</label>
+									<div class="col-sm-9 type" style="padding-top:7px;">
+										<textarea name="dec" id="" style="width:100%;height:50px;"></textarea>
 									</div>
 								</div>
 							</div>
@@ -180,38 +182,37 @@
 
 		<script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 		<script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-
+w
 		<script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 		<script src="plugins/timepicker/bootstrap-timepicker.min.js"></script>
 		<script src="bower_components/moment/min/moment.min.js"></script>
 		<script src="js/nav.js"></script>
 		<script src="js/finance.js"></script>
+		<script src="js/fina_fun.js"></script>
+		<script src="js/condition.js"></script>
 		<script type="text/javascript">
 			$(function() {
-//				$.ajax({
-//					type:"post",
-//					url:url+"order/lst.html",
-//					data:{
-//						order_name:"香蕉",
-//						page:1
-//					},
-//					success:function(res){
-//						console.log(res);
-//					}
-//				})
 				
-				
-				$.ajax({
-					type:"post",
-					url:url+"project/lst.html",
-					data:{},
-					success:function(res){
-						var datajson = eval('(' + res.msg + ')');
-						$.each(datajson.data,function(index,item){
-							$("#p_id_select").append("<option value="+item.id+">"+item.pro_name+"</option>");
-						})
+				$(".fr_swich").click(function(){
+					if($(this).hasClass("active")){
+						$(this).removeClass("active").attr("value","2").find(".fr_swich_txt").text("否");
+					}else{
+						$(this).addClass("active").attr("value","1").find(".fr_swich_txt").text("是");
 					}
 				})
+				
+				var text=GetRequest()
+				var type = text.type;
+				var id = text.id;
+				var lst="";
+				if(type==1){//1收入   2 支出
+					lst="type/type_pid_income.html";
+					$(".pro_type").text("收入类型")
+				}else if(type==2){
+					lst="type/type_pid_pay.html";
+					$(".pro_type").text("支出类型")
+				};
+				console.log(lst)
 				var table = $('#example').DataTable({
 					'ordering': false,
 					'lengthChange': false,
@@ -221,34 +222,35 @@
 					"serverSide": true,
 					"ajax": {
 						"type": 'post',
-						"url": url + "type/lst.html",
+						"url": url+lst,
 						"data": function(d) {
 							var data = {
-								page: d.start / 10 + 1
-							}
+								"id":id
+							};
 							return data;
 						},
 						"dataFilter": function(data) {
 							var data1 = eval('(' + data + ')');
-							var datajson = eval('(' + data1.msg + ')');
-//							if(datajson.returnCode == 501) {
-//								ToLogin(datajson)
-//							} else if(datajson.returnCode == 500) {
-//								alert(datajson.msg)
-//								return false;
-//							}
 							var json = {};
-							json.recordsTotal = datajson.total;
-							json.recordsFiltered = datajson.total;
-							json.data = datajson.data;
+							if(data1.msg==null){
+								json.recordsTotal = 0;
+								json.recordsFiltered = 0;
+								json.data = {};
+							}else{
+								var datajson = eval('(' + data1.msg + ')');
+								console.log(datajson)
+								json.recordsTotal = datajson.length;
+								json.recordsFiltered = datajson.length;
+								json.data = datajson;
+							}
 							return JSON.stringify(json);
 						}
 					},
 					"columns": [{
-							data: 'id'
+							data: 'type_name'
 						},
 						{
-							data: 'type_name'
+							data: 'dec'
 						},
 						{
 							data: null,
@@ -256,29 +258,33 @@
 								var str = "<input type='hidden' value='" + JSON.stringify(data) + "'>";
 								var edit="";
 								if(data.is_edit==1){
-									edit='<button class="btn bg-green margin-r-5 edit">编辑</button>';
+									edit='<button class="btn btn-info margin-r-5 del">删除</button>';
 								}
-								return str + edit + '<button class="btn bg-green margin-r-5 del">删除</button>';
+								return str  + '<button class="btn btn-info margin-r-5 edit">编辑</button>'+ edit;
 							} //下载
 						}
 					]
 				})
 				
-//				$("#pro_del_modal").modal("show");
-//				$("#pro_del_modal").modal("show");
+				$(".treeview").eq(3).addClass("menu-open").find("ul.treeview-menu").show().find("li").eq(3).addClass("active");
+				
 				$("#add").click(function(){
 					$("#type_add_modal").modal("show");
-					$("#type_add_modal").val("");
+					$("#type_add_modal input").val("");
+					$("#type_add_modal textarea").val("");
 				})
 				
 				$("#type_add_modal .save").click(function(){
+					
 					$.ajax({
 						type:"post",
 						url:url+"type/add.html",
 						data:{
-							type_name:$("#type_add_modal input[name=type_name]").val(),
-							p_id:$("#type_add_modal select[name=p_id]").val(),
-							is_edit:$("#type_add_modal input[name=is_edit]:checked").val()
+							"type_name":$("#type_add_modal [name=type_name]").val(),
+							"p_id":id,
+							"is_edit":$("#type_add_modal .fr_swich").attr("value"),
+							"class":type,
+							"dec":$("#type_add_modal [name=dec]").val()
 						},
 						success:function(res){
 							if(res.code==1){
@@ -292,14 +298,16 @@
 				})
 				
 				$("#example").on("click", ".edit", function() {
-					$.each(eval("(" + $(this).siblings("input").val() + ")"),function(index,item){
-						console.log(index);
-						if(index=="is_edit"){
-							$("#type_edit_modal").find("[name="+index+"][value="+item+"]").prop("checked",true);
-						}else{
-							$("#type_edit_modal").find("[name="+index+"]").val(item)
-						}
-					})
+					var item = eval("(" + $(this).siblings("input").val() + ")");
+					$("#type_edit_modal").find("[name=id]").val(item.id);
+					$("#type_edit_modal").find("[name=type_name]").val(item.type_name);
+					$("#type_edit_modal").find("[name=dec]").val(item.dec);
+					if(item.is_edit==1){
+						$("#type_edit_modal .fr_swich").addClass("active").attr("value","1").find(".fr_swich_txt").text("是");
+					}else{
+						$("#type_edit_modal .fr_swich").removeClass("active").attr("value","2").find(".fr_swich_txt").text("否");
+					}
+					$("#type_edit_modal").find("")
 					
 					$("#type_edit_modal").modal("show");
 				})
@@ -309,10 +317,12 @@
 						type:"post",
 						url:url+"type/edit.html",
 						data:{
-							type_name:$("#type_edit_modal input[name=type_name]").val(),
-							id:$("#type_edit_modal input[name=id]").val(),
-							is_edit:$("#type_edit_modal input[name=is_edit]:checked").val(),
-							p_id:$("#type_edit_modal input[name=p_id]").val(),
+							type_name:$("#type_edit_modal [name=type_name]").val(),
+							id:$("#type_edit_modal [name=id]").val(),
+							is_edit:$("#type_edit_modal .fr_swich").attr("value"),
+							p_id:id,
+							class:type,
+							dec:$("#type_edit_modal [name=dec]").val()
 						},
 						success:function(res){
 							if(res.code==1){

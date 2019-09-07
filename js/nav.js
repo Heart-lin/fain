@@ -78,21 +78,21 @@ var menu = {
 	"收支明细": [{
 		"name": "收支明细",
 		"pageId": 14,
-		"url": "inAndExpenses_details.html"
+		"url": "inAndOut_details.html"
 	},
 	{
 		"name": "收入列表",
 		"pageId": 15,
-		"url": "inAndExpenses_in.html"
+		"url": "inAndOut_in.html"
 	},
 	{
 		"name": "支出列表",
 		"pageId": 16,
-		"url": "inAndExpenses_expense.html"
+		"url": "inAndOut_expense.html"
 	}],
 	"财务流程": [
 	{
-		"name": "待审核收入",
+		"name": "报账明细",
 		"pageId": 17,
 		"url": "finance_details.html"
 	},
