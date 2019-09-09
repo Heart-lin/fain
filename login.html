@@ -51,7 +51,12 @@
 								localStorage.setItem("fina_id",res.session.admin_id)
 								localStorage.setItem("fina_name",res.session.admin_name)
 								localStorage.setItem("fina_sign",res.session.admin_sign)
-								window.location.href="expense.html";
+								if(res.session.admin_sign==1||res.session.admin_sign==2){
+									window.location.href="finance_details.html";
+								}else{
+									window.location.href="home.html";
+								}
+								
 							}else{
 								alert(res.msg)
 							}

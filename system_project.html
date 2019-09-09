@@ -96,7 +96,7 @@
 		</div>
 		
 		
-		<div class="modal fade" id="pro_inType_modal">
+		<div class="modal fade" id="pro_edit_modal">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -210,17 +210,17 @@
 							data: 'pro_name'
 						},
 						{
-							data: 'pro_name'
+							data: ''
 						},
 						{
-							data: 'pro_name'
+							data: ''
 						},
 						
 						{
 							data: null,
 							render: function(data) {
 								var str = "<input type='hidden' value='" + JSON.stringify(data) + "'>";
-								return str + '<button class="btn btn-info margin-r-5 pro_type" type="2">支出类型</button><button class="btn btn-info margin-r-5 pro_type" type="1">收入类型</button>';
+								return str + '<button class="btn btn-info margin-r-5 edit">编辑</button><button class="btn btn-info margin-r-5 del">删除</button><button class="btn btn-info margin-r-5 pro_type" type="2">支出类型</button><button class="btn btn-info margin-r-5 pro_type" type="1">收入类型</button>';
 							} //下载
 						}
 
@@ -277,58 +277,58 @@
 					window.location.href="system_type.html?id="+item.id+"&type="+$(this).attr("type")
 				})
 					
-//				$("#example").on("click", ".edit", function() {
-//					$.each(eval("(" + $(this).siblings("input").val() + ")"),function(index,item){
-//						$("#pro_edit_modal").find("[name="+index+"]").val(item)
-//					})
-//					$("#pro_edit_modal").modal("show");
-//				})
+				$("#example").on("click", ".edit", function() {
+					$.each(eval("(" + $(this).siblings("input").val() + ")"),function(index,item){
+						$("#pro_edit_modal").find("[name="+index+"]").val(item)
+					})
+					$("#pro_edit_modal").modal("show");
+				})
 //				
-//				$("#pro_edit_modal .edit").click(function(){
-//					$.ajax({
-//						type:"post",
-//						url:url+"project/edit.html",
-//						data:{
-//							pro_name:$("#pro_edit_modal input[name=pro_name]").val(),
-//							id:$("#pro_edit_modal input[name=id]").val()
-//						},
-//						success:function(res){
-//							if(res.code==1){
-//								table.draw(false);
-//								$("#pro_edit_modal").modal("hide");
-//							}else{
-//								alert(res.msg)
-//							}
-//							
-//						}
-//					})
-//				})
+				$("#pro_edit_modal .edit").click(function(){
+					$.ajax({
+						type:"post",
+						url:url+"project/edit.html",
+						data:{
+							pro_name:$("#pro_edit_modal [name=pro_name]").val(),
+							id:$("#pro_edit_modal input[name=id]").val()
+						},
+						success:function(res){
+							if(res.code==1){
+								table.draw(false);
+								$("#pro_edit_modal").modal("hide");
+							}else{
+								alert(res.msg)
+							}
+							
+						}
+					})
+				})
 //				
-//				$("#example").on("click", ".del", function() {
-//					console.log(eval("(" + $(this).siblings("input").val()+")"))
-//					$("#pro_del_modal").find("input[name=id]").val(eval("(" + $(this).siblings("input").val()+")")["id"])
-//					$("#pro_del_modal").find("span[name=pro_name]").text(eval("(" + $(this).siblings("input").val()+")")["pro_name"])
-//					$("#pro_del_modal").modal("show");
-//				})
+				$("#example").on("click", ".del", function() {
+					console.log(eval("(" + $(this).siblings("input").val()+")"))
+					$("#pro_del_modal").find("input[name=id]").val(eval("(" + $(this).siblings("input").val()+")")["id"])
+					$("#pro_del_modal").find("span[name=pro_name]").text(eval("(" + $(this).siblings("input").val()+")")["pro_name"])
+					$("#pro_del_modal").modal("show");
+				})
 //				
-//				$("#pro_del_modal .save").click(function(){
-//					$.ajax({
-//						type:"post",
-//						url:url+"project/del.html",
-//						data:{
-//							id:$("#pro_del_modal input[name=id]").val()
-//						},
-//						success:function(res){
-//							if(res.code==1){
-//								table.draw(false);
-//								$("#pro_del_modal").modal("hide");
-//							}else{
-//								alert(res.msg)
-//							}
-//							
-//						}
-//					})
-//				})
+				$("#pro_del_modal .save").click(function(){
+					$.ajax({
+						type:"post",
+						url:url+"project/del.html",
+						data:{
+							p_id:$("#pro_del_modal input[name=id]").val()
+						},
+						success:function(res){
+							if(res.code==1){
+								table.draw(false);
+								$("#pro_del_modal").modal("hide");
+							}else{
+								alert(res.msg)
+							}
+							
+						}
+					})
+				})
 			})
 		</script>
 	</body>

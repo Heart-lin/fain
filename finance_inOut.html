@@ -211,7 +211,7 @@
 							render: function(data) {
 								var picStr="";
 								if(data.pic) {
-									picStr = "<img src=" + picUrl + data.pic + " style='width:100px;'>";
+									picStr = "<img src=" + picUrl + data.pic + " style='max-width:100px;max-height:100px;'>";
 								}
 								return picStr;
 							}
@@ -246,11 +246,14 @@
 								//2    
 								//4
 								var str = "";
-								if(data.examine_state==2){
-									str='<button class="btn btn-info margin-r-5 check">审核</button>';
-								}else if(data.examine_state==4){
-									str='<button class="btn btn-default margin-r-5" disable>完成</button>';
+								if(localStorage.getItem("fina_sign")==3){
+									if(data.examine_state==2){
+										str='<button class="btn btn-info margin-r-5 check">审核</button>';
+									}else if(data.examine_state==4){
+										str='<button class="btn btn-default margin-r-5" disable>完成</button>';
+									}
 								}
+								
 								return inputStr+str;
 							}
 						}

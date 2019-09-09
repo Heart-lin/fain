@@ -137,7 +137,7 @@
 									<label  class="col-sm-3 control-label">照片</label>
 
 									<div class="col-sm-9">
-										<label for="addPicInput" style="width:100%;height:150px;">
+										<label for="addPicInput" style="height:150px;">
 											<img src = "img/add.png" id="addPic" style="display:block;max-height:100%;">
 										</label>
 										<input type="file" id="addPicInput" class="pic" accept="image/*" capture="camera" style="display:none;">
@@ -377,7 +377,7 @@
 							render: function(data) {
 								var picStr="";
 								if(data.pic) {
-									picStr = "<img src=" + picUrl + data.pic + " style='width:100px;'>";
+									picStr = "<img src=" + picUrl + data.pic + " style='max-width:100px;max-height:100px;'>";
 								}
 								return picStr;
 							}

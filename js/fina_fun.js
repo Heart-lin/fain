@@ -58,9 +58,6 @@ function timestampToTime(timestamp) {
 	var Y = date.getFullYear() + '-';
 	var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
 	var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
-//	var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
-//	var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
-//	var s = (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds());
 	return Y + M + D;// + h + m + s;
 }
 
@@ -77,6 +74,7 @@ $(".table").on("click","img",function(){
 		$(".imgpopup").show();
 	}	
 })
+
 $("body").on("click",".imgpopup",function(){
 	$(this).hide();
 })
@@ -141,11 +139,57 @@ $("#example").on("click",".reason",function(){
 		$("#reason_modal").modal("show")
 	}
 })
+$("#example").on("click",".examines",function(){
+	alert("功能暂未开放!")
+})
+//  查看按钮
+//$("#example").on("click",".examines",function(){
+//	var item = eval("(" + $(this).siblings("input").val() + ")");
+//	if($("#examines_modal").length==0){
+//		var showJson={
+//			id:{txt:"订单id",f:""},
+//			order_name:{txt:"订单名称",f:""},
+//			money:{txt:"订单金额",f:""},
+//			pro_name:{txt:"项目名称",f:""},
+//			type_name:{txt:"项目类型",f:""},
+//			currency_name:{txt:"币种",f:""},
+//			addtime:{txt:"添加时间",f:"timestampToTime(item.addtime)"}
+//			pic:{txt:"添加时间",f:"return <img src="+item.pic+">"}
+//		};
+//		
+//		var examines = '<div class="modal fade" id="examines_modal">\
+//			<div class="modal-dialog">\
+//				<div class="modal-content">\
+//					<div class="modal-header">\
+//						<button type="button" class="close" data-dismiss="modal" aria-label="Close">\
+//                			<span aria-hidden="true">&times;</span>\
+//						</button>\
+//						<h4 class="modal-title">详情</h4>\
+//					</div>\
+//					<div class="modal-body">\
+//					 	<div class="row">';
+//					$.each(showJson,function(index,items){
+//						examines += '<div class="col-sm-12"><div class="col-sm-3">'+items.txt+'</div>';
+//						if(items.f==""){
+//							examines += '<div class="col-sm-9" >'+item[index]+'</div></div>';
+//						}else{
+//							var value = eval("("+items.f+")")
+//							examines += '<div class="col-sm-9" >'+value+'</div></div>';
+//						}
+//						
+//					})
+//					examines += '</div>\
+//						</div>\
+//						<div class="modal-footer">\
+//							<button type="button" class="btn btn-primary save" data-dismiss="modal">确定</button>\
+//						</div>\
+//					</div>\
+//				</div>';
+//		$("body").append(examines);
+//		$("#examines_modal").modal("show")
+//	}else{
+////		$("#reason_modal [name=examine_des]").text(item.examine_des);
+//		$("#reason_modal").modal("show")
+//	}
+//})
 
-//function
-
-
-//
-//function orderStatus(data){
-//	//1未审核   2审核通过  3审核驳回         4出纳通过  5出纳驳回
-//}

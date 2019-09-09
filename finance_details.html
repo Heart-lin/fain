@@ -254,7 +254,7 @@
 							render: function(data) {
 								var picStr="";
 								if(data.pic) {
-									picStr = "<img src=" + picUrl + data.pic + " style='width:100px;'>";
+									picStr = "<img src=" + picUrl + data.pic + " style='max-width:100px;max-height:100px;'>";
 								}
 								return picStr;
 							}
@@ -284,18 +284,7 @@
 							data: null,
 							render: function(data) {
 								var inputStr = "<input type='hidden' value='" + JSON.stringify(data) + "'>";
-								var str = "";
-								if(data.xamine_state == 1|| !data.xamine_state) {
-									str = '<button class="btn btn-info margin-r-5 del">删除</button>';
-								} else if(data.xamine_state == 2) {
-									if(data.result_state != 1&&data.result_state) {
-										str = '<button class="btn btn-default margin-r-5" disable>完成</button>';
-									} else {
-										str = '<button class="btn btn-default margin-r-5" disable>已审核</button>';
-									}
-								} else if(data.xamine_state == 3) {
-									str = '<button class="btn btn-default margin-r-5" disable>完成</button>';
-								}
+								var str = "<button class='btn btn-info margin-r-5 examines'>查看 </button>";
 								return inputStr+str;
 							}
 						}

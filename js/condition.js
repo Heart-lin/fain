@@ -21,7 +21,6 @@ if($("[name=p_id_more]").length > 0) {
 		url: url + "project/lst.html",
 		success: function(res) {
 			var data1 = eval('(' + res.msg + ')');
-			$("[name=p_id_more]").append("<option value=''>全部</option>");
 			$.each(data1.data, function(index, item) {
 				$("[name=p_id_more]").append("<option value=" + item.id + ">" + item.pro_name + "</option>")
 			})
